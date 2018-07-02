@@ -6,7 +6,9 @@ import '../../bulma.css';
 const NavbarWrapper = styled.div`
 display: flex;
 justify-content: space-between;
-width: 100%;
+position: relative;
+left: 0;
+right: 0;
 padding: 24px;
 background: #24292c6b;
 border-bottom-left-radius: 6px;
@@ -20,7 +22,7 @@ const Title = styled.h1`
 const Hamburger = styled.i`
     font-size: 4.4rem;
     cursor: pointer;
-
+    z-index: 1;
 `;
 const NavbarContainer = (props) => {
     return (
