@@ -35,7 +35,8 @@ class App extends Component {
 
 
 
-        <AddDeckModal addModalActive = {this.state.isAddModalActive}/>
+        <AddDeckModal addModalActive = {this.state.isAddModalActive}
+        addModalHandler={this.makeAddModalActive}/>
       </div>
     );
   }

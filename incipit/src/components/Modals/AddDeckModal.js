@@ -9,7 +9,7 @@ const AddDeckModal = (props) => {
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">Add Deck</p>
-          <button className="delete" aria-label="close" />
+          <button className="delete" aria-label="close" onClick = {props.addModalHandler} />
         </header>
         <section className="modal-card-body">
           <div className="field">
@@ -30,8 +30,8 @@ const AddDeckModal = (props) => {
           </div>
         </section>
         <footer className="modal-card-foot">
-          <button className="button is-info">Add</button>
-          <button className="button">Cancel</button>
+          <button className="button is-info" onClick = {props.addModalHandler}>Add</button>
+          <button className="button" onClick = {props.addModalHandler}>Cancel</button>
         </footer>
       </div>
     </div>
