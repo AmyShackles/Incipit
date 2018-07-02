@@ -23,6 +23,12 @@ const SearchBar = styled.input.attrs({
   className: "input is-large",
   placeholder: "Search"
 })`
+background: var(--search-bar-bg);
+color: var(--sidebar-font-color);
+border: none;
+&::-webkit-input-placeholder {
+    color: var(--sidebar-font-color);
+}
 `;
 
 const SidebarContainer = props => {
