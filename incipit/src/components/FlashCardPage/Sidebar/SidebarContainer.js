@@ -60,13 +60,13 @@ const DeckPanel = styled.button.attrs({
 const SidebarContainer = props => {
   return (
     <SidebarWrapper className={`${props.isHamburgerActive ? "" : "is-hidden"}`}>
-      <div class="control has-icons-left has-icons-right">
+      <div className="control has-icons-left has-icons-right">
         <SearchBar />
-        <span class="icon is-left">
-          <i class="fas fa-search" />
+        <span className="icon is-left">
+          <i className="fas fa-search" />
         </span>
       </div>
-      <AddButton>Add New Deck</AddButton>
+      <AddButton onClick = {props.addModalHandler}>Add New Deck</AddButton>
       <DeckContainer>
      
       </DeckContainer>

@@ -2,9 +2,9 @@ import React from "react";
 import "./../global-variables.css";
 import "./../bulma.css";
 
-const AddDeckModal = () => {
+const AddDeckModal = (props) => {
   return (
-    <div className="modal">
+    <div className={`modal ${props.addModalActive ? 'is-active' : 'is-hidden'}`}>
       <div className="modal-background" />
       <div className="modal-card">
         <header className="modal-card-head">

@@ -17,7 +17,10 @@ const FlashCardPage = (props) => {
         <NavbarContainer
         isHamburgerActive = {props.isHamburgerActive}
         hamburgerHandler = {props.hamburgerHandler} />
-        <SidebarContainer isHamburgerActive = {props.isHamburgerActive} />
+        
+        <SidebarContainer 
+        isHamburgerActive = {props.isHamburgerActive} 
+        addModalHandler = {props.addModalHandler}/>
 
       </PageWrapper>
     </div>
