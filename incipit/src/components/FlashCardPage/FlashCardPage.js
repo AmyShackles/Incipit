@@ -8,11 +8,13 @@ const PageWrapper = styled.div`
   width: 95%;
   margin: 0 auto;
 `;
-const FlashCardPage = () => {
+const FlashCardPage = (props) => {
   return (
     <div className="hero is-dark is-fullheight">
       <PageWrapper>
-        <NavbarContainer />
+        <NavbarContainer
+        isHamburgerActive = {props.isHamburgerActive}
+        hamburgerHandler = {props.hamburgerHandler} />
       </PageWrapper>
     </div>
   );

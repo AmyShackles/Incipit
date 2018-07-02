@@ -17,18 +17,17 @@ const Title = styled.h1`
     font-size: 5rem;
     letter-spacing: .7rem;
 `;
-const HamburgerActive = styled.i.attrs({
-    className: 'fas fa-bars'
-})`
+const Hamburger = styled.i`
     font-size: 4.4rem;
     cursor: pointer;
 
 `;
-const NavbarContainer = () => {
+const NavbarContainer = (props) => {
     return (
         <NavbarWrapper>
             <Title>Deck title</Title>
-        <HamburgerActive></HamburgerActive>
+        <Hamburger className = {`fa ${props.isHamburgerActive ? 'fa-times' : 'fa-bars'}`}
+        onClick = {props.hamburgerHandler}></Hamburger>
 
         </NavbarWrapper>        
     )
