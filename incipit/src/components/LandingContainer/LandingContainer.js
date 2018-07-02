@@ -26,13 +26,16 @@ const Subtitle = styled.h2.attrs({
     font-weight: 500;
 `;
 const CtaStartButton = styled.button.attrs({
-    className: 'button'
+    className: 'button is-info'
 })`
     height: 60px;
     width: calc((225% / 409)*100);
     color: white;
     background: var(--brand-blue);
     border: var(--brand-blue);
+    font-size: 1.5rem;
+
+    
 `;
 
 const ConvinceText = styled.p`
