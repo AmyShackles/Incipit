@@ -11,7 +11,7 @@ const SidebarWrapper = styled.div`
   top: 0;
   bottom: 0;
   right: 0;
-  padding-top: 112px;
+  padding: 112px 64px;
   width: 80%;
   max-width: 400px;
   background: var(--light-grey);
@@ -31,6 +31,18 @@ border: none;
 }
 `;
 
+const AddButton = styled.button.attrs({
+    className: 'button is-info is-large'
+})`
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    color: white;
+    border: var(--brand-blue);
+    font-size: var(--general-font-size);
+    margin-top: 1.6rem;
+`;
+
 const SidebarContainer = props => {
   return (
     <SidebarWrapper className={`${props.isHamburgerActive ? "" : "is-hidden"}`}>
@@ -40,6 +52,7 @@ const SidebarContainer = props => {
             <i class="fas fa-search" />
           </span>
         </div>
+        <AddButton>Add New Deck</AddButton>
     </SidebarWrapper>
   );
 };
