@@ -23,36 +23,53 @@ const SearchBar = styled.input.attrs({
   className: "input is-large",
   placeholder: "Search"
 })`
-background: var(--search-bar-bg);
-color: var(--sidebar-font-color);
-border: none;
-&::-webkit-input-placeholder {
+  background: var(--search-bar-bg);
+  color: var(--sidebar-font-color);
+  border: none;
+  &::-webkit-input-placeholder {
     color: var(--sidebar-font-color);
-}
+  }
 `;
 
 const AddButton = styled.button.attrs({
-    className: 'button is-info is-large'
+  className: "button is-info is-large"
 })`
-    display: flex;
-    justify-content: flex-start;
-    width: 100%;
-    color: white;
-    border: var(--brand-blue);
-    font-size: var(--general-font-size);
-    margin-top: 1.6rem;
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  color: white;
+  border: var(--brand-blue);
+  font-size: var(--general-font-size);
+  margin-top: 1.6rem;
+`;
+const DeckContainer = styled.div`
+  margin-top: 1.6rem;
+  width: 100%;
+`;
+const DeckPanel = styled.button.attrs({
+  className: "button is-large"
+})`
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: 1.6rem;
+  color: var(--sidebar-font-color);
+  background: var(--brand-white);
 `;
 
 const SidebarContainer = props => {
   return (
     <SidebarWrapper className={`${props.isHamburgerActive ? "" : "is-hidden"}`}>
-        <div class="control has-icons-left has-icons-right">
+      <div class="control has-icons-left has-icons-right">
         <SearchBar />
-          <span class="icon is-left">
-            <i class="fas fa-search" />
-          </span>
-        </div>
-        <AddButton>Add New Deck</AddButton>
+        <span class="icon is-left">
+          <i class="fas fa-search" />
+        </span>
+      </div>
+      <AddButton>Add New Deck</AddButton>
+      <DeckContainer>
+     
+      </DeckContainer>
     </SidebarWrapper>
   );
 };
