@@ -5,6 +5,8 @@ import "./App.css";
 import { Route } from "react-router-dom";
 import AddDeckModal from "./components/Modals/AddDeckModal";
 import AddFlashcardModal from "./components/Modals/AddFlashcardModal";
+import DeleteModal from './components/Modals/DeleteModal';
+import EditModal from "./components/Modals/EditModal";
 import LandingContainer from "./components/LandingContainer/LandingContainer";
 import FlashCardPage from "./components/FlashCardPage/FlashCardPage";
 import axios from 'axios'
@@ -16,10 +18,17 @@ class App extends Component {
       isHamburgerActive: false,
       isAddModalActive: false,
       isFlashcardModalActive: false,
-
+      isEditModalActive: false,
+      isDeleteModalActive: false,
       deckName: "",
       deckPanels: [],
-      flashcards: [],
+      flashcards: [{
+        frontInfo: 'front',
+        backInfo: 'back',
+        likes: 0,
+        dislikes: 0,
+        id: Date.now()
+      }],
       frontInfo: "",
       backInfo: ""
     };
@@ -44,6 +53,21 @@ componentDidMount() {
         })
       })
   }
+  getDeck = (id) => {
+    axios.get(`http://localhost:5000/api/deck/${id}`)
+      .then(response => {
+        this.setState({
+        cardsInDeck: response.data.deck
+      })
+    })
+  }
+  makeEditModalActive = () => {
+    this.setState({isEditModalActive: !this.state.isEditModalActive});
+  }
+  makeDeleteModalActive = () => {
+    this.setState({isDeleteModalActive: !this.state.isDeleteModalActive});
+  }
+
 
 /*this.state.decks' structure is:
 [
@@ -63,14 +87,7 @@ componentDidMount() {
 ] */
 
   /* GetDeck's being used to populate cards of a specific deck */
-  getDeck = (id) => {
-    axios.get(`http://localhost:5000/api/deck/${id}`)
-      .then(response => {
-        this.setState({
-        cardsInDeck: response.data.deck
-      })
-    })
-  }
+
 /* Don't know if we'll want to use this one/if we'll have time
 
   getAllCardsOfARating = (id, rating) => {
@@ -165,7 +182,9 @@ componentDidMount() {
       let newCard = response.data.newCard
       flashcards.cards.unshift(newCard)
       this.setState({
-        cardsInDeck: flashcards
+        cardsInDeck: flashcards,
+        backInfo: '',
+        frontInfo: ''
       })
     })
   };
@@ -174,6 +193,7 @@ componentDidMount() {
     this.setState({ [e.target.name]: e.target.value });
   };
   render() {
+    let id = ''
     return (
       <div className="App">
         <Route exact path="/" component={LandingContainer} />
@@ -188,8 +208,11 @@ componentDidMount() {
               hamburgerHandler={this.makeHamburgerActive}
               addModalHandler={this.makeAddModalActive}
               flashCardModalHandler={this.makeFlashcardModalActive}
+              editModalHandler = {this.makeEditModalActive}
+              deleteModalHandler = {this.makeDeleteModalActive}
               deckPanels={this.state.deckPanels}
               getDeck={this.getDeck}
+              getIndividualCard = {this.getIndividualCard}
               flashcards={this.state.cardsInDeck}
             />
           )}
@@ -208,6 +231,22 @@ componentDidMount() {
           changeHandler={this.detectChange}
           frontInfo={this.state.frontInfo}
           backInfo={this.state.backInfo}
+        />
+
+        <EditModal 
+        editState = {this.state.isEditModalActive}
+        editModalHandler = {this.makeEditModalActive}
+        deckName={this.state.deckName}
+        getIndividualCard = {this.getIndividualCard}
+        getDeck={this.getDeck}
+        />
+        <DeleteModal 
+        deleteState = {this.state.isDeleteModalActive}
+        deleteModalHandler = {this.makeDeleteModalActive}
+        deckName={this.state.deckName}
+        getIndividualCard = {this.getIndividualCard}
+        getDeck={this.getDeck}
+        id={this.state.cardsInDeck}
         />
       </div>
     );

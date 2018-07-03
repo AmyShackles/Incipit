@@ -12,12 +12,19 @@ const FlashcardContainer = props => {
       <div className="columns is-multiline">
         {/* Changed this so that flashcards rendered only cards in selected deck */}
         {props.flashcards ? props.flashcards.cards.map(flashcard => {
-          subject = flashcard._id
+          subject = flashcard.subject
           return (
             <div className="column is-half" key={flashcard._id}>
               <Flashcard
+                key = {flashcard._id}
+                getIndividualCard = {props.getIndividualCard}
+                currentCard = {flashcard._id}
+                subject={flashcard.subject}
                 frontInfo = {flashcard.front}
                 backInfo = {flashcard.back}
+                makeModalActive = {props.makeModalActive}
+                editModalHandler = {props.editModalHandler}
+                deleteModalHandler = {props.deleteModalHandler}
               />
             </div>
           );
