@@ -23,9 +23,9 @@ router.get("/deck", (req, res) => {
 
 // Add a new deck -- THIS ONE WORKS
 router.post("/deck", (req, res) => {
-  const { name } = req.body;
-  if (!name) {
-    sendUserError(400, "A subject must have a name", res);
+  const { name, category } = req.body;
+  if (!name || !category) {
+    sendUserError(400, "A deck must have a name and private/public category", res);
   } else {
     Deck.create(req.body)
       .then(newDeck => {
