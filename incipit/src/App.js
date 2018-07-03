@@ -25,7 +25,7 @@ class App extends Component {
 
   addDeck = () => {
     const deckPanels = this.state.deckPanels;
-    const deckPanel = { name: this.state.deckName, id: Date.now()}
+    const deckPanel = { name: this.state.deckName, id: Date.now(), category: 'public'}
     deckPanels.push(deckPanel);
 
     this.setState({ deckPanels, deckName: '' });
