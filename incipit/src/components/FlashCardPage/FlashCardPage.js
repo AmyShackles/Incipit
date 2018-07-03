@@ -30,6 +30,8 @@ const FlashCardPage = (props) => {
       flashCardModalHandler = {props.flashCardModalHandler}
       deckPanels = {props.deckPanels}
       flashcards = {props.flashcards} 
+      editModalHandler = {props.editModalHandler}
+      deleteModalHandler = {props.deleteModalHandler}
       />
       </PageWrapper>
     </div>

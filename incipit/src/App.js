@@ -5,6 +5,8 @@ import "./App.css";
 import { Route } from "react-router-dom";
 import AddDeckModal from "./components/Modals/AddDeckModal";
 import AddFlashcardModal from "./components/Modals/AddFlashcardModal";
+import DeleteModal from './components/Modals/DeleteModal';
+import EditModal from "./components/Modals/EditModal";
 import LandingContainer from "./components/LandingContainer/LandingContainer";
 import FlashCardPage from "./components/FlashCardPage/FlashCardPage";
 import axios from 'axios'
@@ -16,10 +18,17 @@ class App extends Component {
       isHamburgerActive: false,
       isAddModalActive: false,
       isFlashcardModalActive: false,
-
+      isEditModalActive: false,
+      isDeleteModalActive: false,
       deckName: "",
       deckPanels: [],
-      flashcards: [],
+      flashcards: [{
+        frontInfo: 'front',
+        backInfo: 'back',
+        likes: 0,
+        dislikes: 0,
+        id: Date.now()
+      }],
       frontInfo: "",
       backInfo: ""
     };
@@ -35,6 +44,7 @@ class App extends Component {
       isFlashcardModalActive: !this.state.isFlashcardModalActive
     });
   };
+
 /* THIS IS WHERE AMY STARTED ADDING THINGS */
 componentDidMount() {
     axios.get('http://localhost:5000/api/deck')
@@ -43,6 +53,12 @@ componentDidMount() {
           deckPanels: response.data.decks
         })
       })
+  }
+  makeEditModalActive = () => {
+    this.setState({isEditModalActive: !this.state.isEditModalActive});
+  }
+  makeDeleteModalActive = () => {
+    this.setState({isDeleteModalActive: !this.state.isDeleteModalActive});
   }
 
 /*this.state.decks' structure is:
@@ -153,6 +169,7 @@ componentDidMount() {
   /* Now adding flashcards goes to and from database/server */
   addFlashCard = () => {
     let id = this.state.cardsInDeck._id
+    const flashcards = this.state.flashcards;
     const flashcard = {
       front: this.state.frontInfo,
       back: this.state.backInfo,
@@ -188,6 +205,9 @@ componentDidMount() {
               hamburgerHandler={this.makeHamburgerActive}
               addModalHandler={this.makeAddModalActive}
               flashCardModalHandler={this.makeFlashcardModalActive}
+              editModalHandler = {this.makeEditModalActive}
+              deleteModalHandler = {this.makeDeleteModalActive}
+              flashcards={this.state.flashcards}
               deckPanels={this.state.deckPanels}
               getDeck={this.getDeck}
               flashcards={this.state.cardsInDeck}
@@ -208,6 +228,16 @@ componentDidMount() {
           changeHandler={this.detectChange}
           frontInfo={this.state.frontInfo}
           backInfo={this.state.backInfo}
+        />
+
+        <EditModal 
+        editState = {this.state.isEditModalActive}
+        editModalHandler = {this.makeEditModalActive}
+        />
+        <DeleteModal 
+        deleteState = {this.state.isDeleteModalActive}
+        deleteModalHandler = {this.makeDeleteModalActive}
+
         />
       </div>
     );
