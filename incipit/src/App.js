@@ -182,7 +182,9 @@ componentDidMount() {
       let newCard = response.data.newCard
       flashcards.cards.unshift(newCard)
       this.setState({
-        cardsInDeck: flashcards
+        cardsInDeck: flashcards,
+        backInfo: '',
+        frontInfo: ''
       })
     })
   };
