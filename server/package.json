@@ -1,9 +1,9 @@
 {
   "name": "incipit",
   "version": "1.0.0",
-  "main": "server.js",
-  "script": {
-    "start": "node"
+  "main": "./server.js",
+  "scripts": {
+    "start": "nodemon"
   },
   "repository": "https://github.com/AmyShackles/Incipit.git",
   "author": "AmyShackles <amyshackles@gmail.com>",
