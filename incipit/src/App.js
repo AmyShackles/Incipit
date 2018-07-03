@@ -54,12 +54,11 @@ class App extends Component {
 
         <AddDeckModal addModalActive = {this.state.isAddModalActive}
         addModalHandler={this.makeAddModalActive}
-        addDeckHandler = {this.addDeck}
+        <AddFlashcardModal 
+        flashCardModalActive = {this.state.isFlashcardModalActive}
         changeHandler = {this.detectChange}
-        addDeckHandler = {this.addDeck}
-        deckName = {this.state.deckName}/>
-        
-
+        frontInfo = {this.state.frontInfo}
+        backInfo = {this.state.backInfo} />
       </div>
     );
   }
