@@ -48,7 +48,8 @@ const AddFlashcardModal = props => {
         <footer className="modal-card-foot">
           <button
             className="button is-info"onClick = {() => {
-                props.flashCardModalHandler
+                props.addFlashCardHandler();
+                props.flashCardModalHandler();
                 }}
           >
             Add
