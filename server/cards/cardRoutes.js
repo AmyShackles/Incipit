@@ -43,7 +43,7 @@ router.get("/deck/:id", (req, res) => {
 if (!rating) {
   Deck.findOne({ _id: id })
     .populate("cards", "-__v -subject")
-    .select("name -_id")
+    .select("name")
     .then(deck => {
         if (deck !== null) {
       res.status(200).json({ deck });

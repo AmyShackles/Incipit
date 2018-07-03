@@ -23,7 +23,7 @@ const Plus = styled.h2`
 const FlashCardAdder = (props) => {
     return (
         <FlashcardContainer className='box' onClick = {() => {
-            props.flashCardModalHandler();
+            props.flashCardModalHandler(props.subject);
             }}>
             <Plus>+</Plus>
             <p>Add a new card</p>

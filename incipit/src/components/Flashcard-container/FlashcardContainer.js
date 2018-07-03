@@ -5,12 +5,14 @@ import styled from "styled-components";
 import Flashcard from "./Flashcard";
 import FlashcardAdder from "./FlashcardAdder";
 
+let subject = ''
 const FlashcardContainer = props => {
   return (
     <div className="flashcard-container">
       <div className="columns is-multiline">
         {/* Changed this so that flashcards rendered only cards in selected deck */}
         {props.flashcards ? props.flashcards.cards.map(flashcard => {
+          subject = flashcard._id
           return (
             <div className="column is-half">
               <Flashcard
@@ -22,7 +24,7 @@ const FlashcardContainer = props => {
           );
         }) : null}
         <div className="column is-half">
-          <FlashcardAdder flashCardModalHandler={props.flashCardModalHandler} />
+          <FlashcardAdder subject={subject} flashCardModalHandler={props.flashCardModalHandler} />
         </div>
       </div>
     </div>

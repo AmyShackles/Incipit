@@ -53,7 +53,6 @@ class Flashcard extends Component {
   render() {
     return (
       <FlashcardContainer onClick = { () => {
-          
             this.setState({ isFlipped: !this.state.isFlipped })
           }
       }>

@@ -81,17 +81,6 @@ componentDidMount() {
       })
   } */
 
-  addCardToDeck = (id, newCard) => {
-    axios.post(`http://localhost:5000/api/deck/${id}`, newCard)
-      .then(response => {
-        let cards = this.state.cardsInDeck
-        let newCard = response.data.newCard
-        cards.unshift(newCard)
-        this.setState({
-          cardsInDeck: cards
-        })
-      })
-  }
   /* updateDeck is for changing the name of a deck */
   updateDeck = (id, updates) => {
     axios.put(`http://localhost:5000/api/deck/${id}`, updates)
@@ -160,20 +149,24 @@ componentDidMount() {
         this.setState({ deckPanels, deckName: "", category: "" });
       })
   }
-  addFlashCard = () => {
-    console.log("add");
-    const flashcards = this.state.flashcards;
+  addFlashCard = (id) => {
     const flashcard = {
-      frontInfo: this.state.frontInfo,
-      backInfo: this.state.backInfo,
+      front: this.state.frontInfo,
+      back: this.state.backInfo,
       likes: 0,
       dislikes: 0,
-      id: Date.now()
     };
-    flashcards.push(flashcard);
-
-    this.setState({ flashcards });
+    axios.post(`http://localhost:5000/api/deck/${id}`, flashcard)
+    .then(response => {
+      const flashcards = this.state.cardsInDeck;
+      let newCard = response.data.newCard
+      flashcards.unshift(newCard)
+      this.setState({
+        cardsInDeck: flashcards
+      })
+    })
   };
+
   detectChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -203,7 +196,6 @@ componentDidMount() {
           addModalHandler={this.makeAddModalActive}
           addDeckHandler={this.addDeck}
           changeHandler={this.detectChange}
-          addDeckHandler={this.addDeck}
           deckName={this.state.deckName}
         />
         <AddFlashcardModal
