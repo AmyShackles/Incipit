@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "script": {
-    "start": "nodemon server.js"
+    "start": "node"
   },
   "repository": "https://github.com/AmyShackles/Incipit.git",
   "author": "AmyShackles <amyshackles@gmail.com>",
