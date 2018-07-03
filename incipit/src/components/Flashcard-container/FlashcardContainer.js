@@ -16,8 +16,12 @@ const FlashcardContainer = props => {
           return (
             <div className="column is-half" key={flashcard._id}>
               <Flashcard
-                frontInfo = {flashcard.front}
-                backInfo = {flashcard.back}
+                key = {flashcard.id}
+                frontInfo = {flashcard.frontInfo}
+                backInfo = {flashcard.backInfo}
+                makeModalActive = {props.makeModalActive}
+                editModalHandler = {props.editModalHandler}
+                deleteModalHandler = {props.deleteModalHandler}
               />
             </div>
           );

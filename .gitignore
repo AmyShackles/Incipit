@@ -58,6 +58,9 @@ typings/
 .env
 yarn.lock
 
-.vs/
-/.vs
+# next.js build output
+.next
+
+VS-Code 
+/.vs 
 .vs
