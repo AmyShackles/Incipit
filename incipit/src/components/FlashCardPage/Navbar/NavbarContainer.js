@@ -22,7 +22,7 @@ const Title = styled.h1`
 const Hamburger = styled.i`
     font-size: 4.4rem;
     cursor: pointer;
-    z-index: 1;
+    z-index: 2;
 `;
 const NavbarContainer = (props) => {
     return (

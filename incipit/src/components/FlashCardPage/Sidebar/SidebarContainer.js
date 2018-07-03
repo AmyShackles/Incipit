@@ -15,7 +15,7 @@ const SidebarWrapper = styled.div`
   width: 80%;
   max-width: 400px;
   background: var(--light-grey);
-  z-index: 0;
+  z-index: 1;
 `;
 
 const SearchBar = styled.input.attrs({
