@@ -10,6 +10,8 @@ const server = express();
 setupMiddleware(server)
 setupRoutes(server);
 
+mongoose.Promise = global.Promise 
+
 db.connectTo('incipit')
     .then(() => {
         console.log('\n *** Incipit connected to database **\n')
