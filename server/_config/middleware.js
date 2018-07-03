@@ -4,7 +4,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 
 const corsOptions = {
-    origin: ['http://localhost:3000', 'https://zen-perlman-68ad95.netlify.com/flashcard-app']
+    origin: ['http://localhost:3000', 'https://zen-perlman-68ad95.netlify.com']
 }
 
 module.exports = function(server) {
