@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import "../bulma.css";
 import "../global-variables.css";
 import styled from "styled-components";
-
+import './FlashcardDropdown';
+import FlashcardDropdown from "./FlashcardDropdown";
 const FlashcardContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -12,7 +13,6 @@ const FlashcardContainer = styled.div`
   cursor: pointer;
   color: var(--brand-white);
   perspective: 600px;
- 
 `;
 const Card = styled.div`
   width: 100%;
@@ -47,21 +47,32 @@ class Flashcard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isFlipped: false
+      isFlipped: false,
+      dropdownActive: false,
     };
+  }
+  makeDropdownActive = () => {
+    console.log('test')
+    this.setState({ dropdownActive: !this.state.dropdownActive});
   }
   render() {
     return (
-      <FlashcardContainer onClick = { () => {
-          
-            this.setState({ isFlipped: !this.state.isFlipped })
-          }
-      }>
-        <Card className = {`${this.state.isFlipped ? 'is-flipped' : ''}`}>
-          <CardFront>{this.props.frontInfo}</CardFront>
-          <CardBack >{this.props.backInfo}</CardBack>
+      <FlashcardContainer onClick={(e) => {
+          this.setState({ isFlipped: !this.state.isFlipped });
+
+        }}>
+        <Card className={`${this.state.isFlipped ? "is-flipped" : ""}`}>
+          <CardFront>
+            {this.props.frontInfo}
+            <FlashcardDropdown 
+            dropdownActive = {this.state.dropdownActive}
+            dropdownHandler = {this.makeDropdownActive}/>
+          </CardFront>
+          <CardBack>{this.props.backInfo}</CardBack>
         </Card>
+
       </FlashcardContainer>
+
     );
   }
 }

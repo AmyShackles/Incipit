@@ -17,7 +17,13 @@ class App extends Component {
 
       deckName: "",
       deckPanels: [],
-      flashcards: [],
+      flashcards: [{
+        frontInfo: 'front',
+        backInfo: 'back',
+        likes: 0,
+        dislikes: 0,
+        id: Date.now()
+      }],
       frontInfo: "",
       backInfo: ""
     };
@@ -98,6 +104,7 @@ class App extends Component {
           frontInfo={this.state.frontInfo}
           backInfo={this.state.backInfo}
         />
+
       </div>
     );
   }
