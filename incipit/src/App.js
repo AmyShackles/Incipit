@@ -19,7 +19,7 @@ class App extends Component {
       deckPanels: [],
       flashcards: [],
       frontInfo: "",
-      backInfo: "",
+      backInfo: ""
     };
   }
   makeHamburgerActive = () => {
@@ -29,8 +29,10 @@ class App extends Component {
     this.setState({ isAddModalActive: !this.state.isAddModalActive });
   };
   makeFlashcardModalActive = () => {
-    this.setState({ isFlashcardModalActive: !this.state.isFlashcardModalActive });
-  }
+    this.setState({
+      isFlashcardModalActive: !this.state.isFlashcardModalActive
+    });
+  };
 
   addDeck = () => {
     const deckPanels = this.state.deckPanels;
@@ -44,7 +46,7 @@ class App extends Component {
     this.setState({ deckPanels, deckName: "" });
   };
   addFlashCard = () => {
-    console.log('add');
+    console.log("add");
     const flashcards = this.state.flashcards;
     const flashcard = {
       frontInfo: this.state.frontInfo,
@@ -74,13 +76,12 @@ class App extends Component {
               isHamburgerActive={this.state.isHamburgerActive}
               hamburgerHandler={this.makeHamburgerActive}
               addModalHandler={this.makeAddModalActive}
+              flashCardModalHandler={this.makeFlashcardModalActive}
+              flashcards={this.state.flashcards}
               deckPanels={this.state.deckPanels}
-        flashCardModalHandler = {this.makeFlashcardModalActive}
-
             />
           )}
         />
-
         <AddDeckModal
           addModalActive={this.state.isAddModalActive}
           addModalHandler={this.makeAddModalActive}
@@ -89,11 +90,14 @@ class App extends Component {
           addDeckHandler={this.addDeck}
           deckName={this.state.deckName}
         />
-        <AddFlashcardModal 
-        flashCardModalActive = {this.state.isFlashcardModalActive}
-        changeHandler = {this.detectChange}
-        frontInfo = {this.state.frontInfo}
-        backInfo = {this.state.backInfo} />
+        <AddFlashcardModal
+          flashCardModalActive={this.state.isFlashcardModalActive}
+          flashCardModalHandler={this.makeFlashcardModalActive}
+          addFlashCardHandler={this.addFlashCard}
+          changeHandler={this.detectChange}
+          frontInfo={this.state.frontInfo}
+          backInfo={this.state.backInfo}
+        />
       </div>
     );
   }
