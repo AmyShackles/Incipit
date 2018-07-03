@@ -16,6 +16,9 @@ const FlashcardContainer = props => {
                 key = {flashcard.id}
                 frontInfo = {flashcard.frontInfo}
                 backInfo = {flashcard.backInfo}
+                makeModalActive = {props.makeModalActive}
+                editModalHandler = {props.editModalHandler}
+                deleteModalHandler = {props.deleteModalHandler}
               />
             </div>
           );

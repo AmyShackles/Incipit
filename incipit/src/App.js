@@ -5,6 +5,8 @@ import "./App.css";
 import { Route } from "react-router-dom";
 import AddDeckModal from "./components/Modals/AddDeckModal";
 import AddFlashcardModal from "./components/Modals/AddFlashcardModal";
+import DeleteModal from './components/Modals/DeleteModal';
+import EditModal from "./components/Modals/EditModal";
 import LandingContainer from "./components/LandingContainer/LandingContainer";
 import FlashCardPage from "./components/FlashCardPage/FlashCardPage";
 class App extends Component {
@@ -14,10 +16,17 @@ class App extends Component {
       isHamburgerActive: false,
       isAddModalActive: false,
       isFlashcardModalActive: false,
-
+      isEditModalActive: false,
+      isDeleteModalActive: false,
       deckName: "",
       deckPanels: [],
-      flashcards: [],
+      flashcards: [{
+        frontInfo: 'front',
+        backInfo: 'back',
+        likes: 0,
+        dislikes: 0,
+        id: Date.now()
+      }],
       frontInfo: "",
       backInfo: ""
     };
@@ -33,6 +42,13 @@ class App extends Component {
       isFlashcardModalActive: !this.state.isFlashcardModalActive
     });
   };
+  makeEditModalActive = () => {
+    this.setState({isEditModalActive: !this.state.isEditModalActive});
+  }
+  makeDeleteModalActive = () => {
+    this.setState({isDeleteModalActive: !this.state.isDeleteModalActive});
+  }
+
 
   addDeck = () => {
     const deckPanels = this.state.deckPanels;
@@ -46,7 +62,6 @@ class App extends Component {
     this.setState({ deckPanels, deckName: "" });
   };
   addFlashCard = () => {
-    console.log("add");
     const flashcards = this.state.flashcards;
     const flashcard = {
       frontInfo: this.state.frontInfo,
@@ -77,6 +92,8 @@ class App extends Component {
               hamburgerHandler={this.makeHamburgerActive}
               addModalHandler={this.makeAddModalActive}
               flashCardModalHandler={this.makeFlashcardModalActive}
+              editModalHandler = {this.makeEditModalActive}
+              deleteModalHandler = {this.makeDeleteModalActive}
               flashcards={this.state.flashcards}
               deckPanels={this.state.deckPanels}
             />
@@ -97,6 +114,16 @@ class App extends Component {
           changeHandler={this.detectChange}
           frontInfo={this.state.frontInfo}
           backInfo={this.state.backInfo}
+        />
+
+        <EditModal 
+        editState = {this.state.isEditModalActive}
+        editModalHandler = {this.makeEditModalActive}
+        />
+        <DeleteModal 
+        deleteState = {this.state.isDeleteModalActive}
+        deleteModalHandler = {this.makeDeleteModalActive}
+
         />
       </div>
     );
