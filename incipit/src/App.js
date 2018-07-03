@@ -7,6 +7,8 @@ import AddDeckModal from "./components/Modals/AddDeckModal";
 import AddFlashcardModal from "./components/Modals/AddFlashcardModal";
 import LandingContainer from "./components/LandingContainer/LandingContainer";
 import FlashCardPage from "./components/FlashCardPage/FlashCardPage";
+import axios from 'axios'
+
 class App extends Component {
   constructor() {
     super();
@@ -33,6 +35,128 @@ class App extends Component {
       isFlashcardModalActive: !this.state.isFlashcardModalActive
     });
   };
+/* THIS IS WHERE AMY STARTED ADDING THINGS */
+componentDidMount() {
+    axios.get('http://localhost:5000/api/deck')
+      .then(response => {
+        console.log('response', response)
+        this.setState({
+          decks: response.data.decks
+        })
+      })
+  }
+
+/*this.state.decks' structure is:
+[
+  {
+    _id: ObjectId(""),
+    cards: [
+      _id: ObjectId(""),
+      back: String,
+      front: String,
+      rating: String,
+      subject: [
+        ObjectId of deck
+      ]
+    ],
+    name: String // name of deck (I think you're using 'category')
+  }
+] */
+  addANewDeck = (newDeck) => {
+    axios.post(`http://localhost:5000/api/deck/`, newDeck)
+      .then(response => {
+        let decks = this.state.decks;
+        let newDeck = response.data.newDeck;
+        decks.unshift(newDeck);
+        this.setState({
+          decks: decks
+        })
+      })
+  }
+  getAllCardsofDeck = (id) => {
+    axios.get(`http://localhost:5000/api/deck/${id}`)
+      .then(response => {
+        this.setState({
+        cardsInDeck: response.data.deck
+      })
+    })
+  }
+/* Don't know if we'll want to use this one/if we'll have time
+
+  getAllCardsOfARating = (id, rating) => {
+    axios.get(`http://localhost:5000/api/deck/${id}?rating=${rating}`)
+      .then(response => {
+        this.setState({
+          cardsWithRating: response.data.cardsWithRating
+        })
+      })
+  } */
+
+  addCardToDeck = (id, newCard) => {
+    axios.post(`http://localhost:5000/api/deck/${id}`, newCard)
+      .then(response => {
+        let cards = this.state.cardsInDeck
+        let newCard = response.data.newCard
+        cards.unshift(newCard)
+        this.setState({
+          cardsInDeck: cards
+        })
+      })
+  }
+  /* updateDeck is for changing the name of a deck */
+  updateDeck = (id, updates) => {
+    axios.put(`http://localhost:5000/api/deck/${id}`, updates)
+      .then(response => {
+        let deck = this.state.decks
+        let editedDeck = deck.filter(card => card._id !== response.data.updatedDeck._id)
+        editedDeck.unshift(response.data.updatedDeck);
+        this.setState({
+          decks: editedDeck
+        })
+      })
+  }
+  /* deleteDeck also deletes all cards in the deck */
+  deleteDeck = (id) => {
+    axios.delete(`http://localhost:5000/api/deck/${id}`)
+      .then(response => {
+        let sparedDecks = this.state.decks.filter(card => card._id !== response.data.deletedDeck._id)
+        this.setState({
+          decks: sparedDecks
+        })
+      })
+  }
+  getIndividualCard = (id, cardId) => {
+    axios.get(`http://localhost:5000/api/deck/${id}/${cardId}`)
+      .then(response => {
+        this.setState({
+          selectedCard: response.data.selectedCard
+        })
+      })
+  }
+  /* editIndividualCard can be used for editing anything -
+(And by anything, I mean: front & back, front, back, rating, or subject) */
+  editIndividualCard = (id, cardId, updates) => {
+    axios.put(`http://localhost:5000/api/deck/${id}/${cardId}`, updates)
+      .then(response => {
+        let currentCards = this.state.cardsInDeck
+        let editedCards = currentCards.filter(card => card._id !== response.data.updatedCard._id)
+        editedCards.unshift(response.data.updatedCard)
+        this.setState({
+          selectedCard: response.data.updatedCard,
+          cardsInDeck: editedCards
+        })
+      })
+  }
+  deleteIndividualCard = (id, cardId) => {
+    axios.delete(`http://localhost:5000/api/deck/${id}/${cardId}`)
+      .then(response => {
+        let sparedCards = this.state.cardsInDeck.filter(card => card._id !== response.data.cardRemoved._id)
+        this.setState({
+          cardsInDeck: sparedCards,
+          selectedCard: null
+        })
+      })
+  }
 
   addDeck = () => {
     const deckPanels = this.state.deckPanels;

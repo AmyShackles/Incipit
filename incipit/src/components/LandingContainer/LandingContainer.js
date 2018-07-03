@@ -61,7 +61,7 @@ const LandingContainer = () => {
     return (
         <div className="hero is-fullheight is-dark">
             <CustomHeroBody>
-            <BrandName>Insipit</BrandName>
+            <BrandName>Incipit</BrandName>
             <Subtitle>The only flashcard program you will ever need.</Subtitle>
             <Link to = '/flashcard-app'>
             <CtaStartButton>Start Your Journey</CtaStartButton>
