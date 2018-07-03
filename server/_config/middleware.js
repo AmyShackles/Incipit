@@ -10,7 +10,7 @@ const corsOptions = {
 
 module.exports = function(server) {
     server.use(helmet());
-    server.use(morgan('dev'));
+    server.use(morgan('combined'));
     server.use(express.json());
     server.use(cors(corsOptions));
 };
