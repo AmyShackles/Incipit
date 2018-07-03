@@ -4,11 +4,14 @@
     --brand-white: #f2f2f2;
 
     --general-font-size: 2.4rem;
-    --title-font-size: 9.6rem;
+    --logo-font-size: 7rem;
 
     --grey: #b6b6b6;
     /* Used for sidebar and options dropdown */
     --light-grey: #c4c4c4;
 
-    --deck-panel-color: #7d7d7d; 
+    --search-bar-bg: #E8E8E8;
+    --sidebar-font-color: #7d7d7d;
+    --sidebar-font-size: 3.6rem;
+    --tablet: 775px;
 }
