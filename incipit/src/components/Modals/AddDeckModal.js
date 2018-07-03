@@ -25,11 +25,11 @@ const AddDeckModal = (props) => {
           </div>
           <div className = "control">
           <label className="radio">
-            <input type="radio" name="answer" />
+            <input type="radio" name="category" value="private" onChange={props.changeHandler} />
             Private?
           </label>
           <label className="radio">
-            <input type="radio" name="answer" />
+            <input type="radio" name="category" value="public" onChange={props.changeHandler} />
             Public?
           </label>
           </div>

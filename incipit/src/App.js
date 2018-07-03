@@ -39,9 +39,8 @@ class App extends Component {
 componentDidMount() {
     axios.get('http://localhost:5000/api/deck')
       .then(response => {
-        console.log('response', response)
         this.setState({
-          decks: response.data.decks
+          deckPanels: response.data.decks
         })
       })
   }
@@ -62,17 +61,7 @@ componentDidMount() {
     name: String // name of deck (I think you're using 'category')
   }
 ] */
-  addANewDeck = (newDeck) => {
-    axios.post(`http://localhost:5000/api/deck/`, newDeck)
-      .then(response => {
-        let decks = this.state.decks;
-        let newDeck = response.data.newDeck;
-        decks.unshift(newDeck);
-        this.setState({
-          decks: decks
-        })
-      })
-  }
+  
   getAllCardsofDeck = (id) => {
     axios.get(`http://localhost:5000/api/deck/${id}`)
       .then(response => {
@@ -162,13 +151,15 @@ componentDidMount() {
     const deckPanels = this.state.deckPanels;
     const deckPanel = {
       name: this.state.deckName,
-      id: Date.now(),
-      category: "public"
+      category: this.state.category
     };
-    deckPanels.push(deckPanel);
-
-    this.setState({ deckPanels, deckName: "" });
-  };
+    axios.post(`http://localhost:5000/api/deck/`, deckPanel)
+      .then(response => {
+        let newDeck = response.data.newDeck;
+        deckPanels.push(newDeck);
+        this.setState({ deckPanels, deckName: "", category: "" });
+      })
+  }
   addFlashCard = () => {
     console.log("add");
     const flashcards = this.state.flashcards;
