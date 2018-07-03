@@ -51,8 +51,11 @@ table {
 
 html {
   font-size: 62.5%;
+  
 }
+
 body {
   font-size: var(--general-font-size);
   font-family: Roboto, sans-serif, Arial;
 }
+

@@ -1,0 +1,16 @@
+:root {
+    --brand-black: #24292c;
+    --brand-blue: #1e9df9;
+    --brand-white: #f2f2f2;
+
+    --general-font-size: 2.4rem;
+    --logo-font-size: 7rem;
+
+    --grey: #b6b6b6;
+    /* Used for sidebar and options dropdown */
+    --light-grey: #c4c4c4;
+
+    --deck-panel-color: #7d7d7d;
+
+    --tablet: 775px;
+}

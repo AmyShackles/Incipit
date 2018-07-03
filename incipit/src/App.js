@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
+import './components/global-variables.css';
+import './components/bulma.css';
+import './App.css';
+import { Route } from 'react-router-dom';
+import LandingContainer from './components/LandingContainer/LandingContainer';
+
+
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <button className ="button primary">test</button>
+        <Route exact path='/' component={LandingContainer} />
       </div>
     );
   }
