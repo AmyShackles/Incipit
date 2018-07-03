@@ -7,9 +7,17 @@ import FlashcardAdder from './FlashcardAdder';
 
 const FlashcardContainer = (props) => {
     return (
-        <div className = 'flashcard-container'>
-        <Flashcard />
-        <FlashcardAdder />
+        {props.flashcards.map(flashcard => {
+          return (
+            <div className="column is-half">
+              <Flashcard
+                key = {flashcard.id}
+                frontInfo = {flashcard.frontInfo}
+                backInfo = {flashcard.backInfo}
+              />
+            </div>
+          );
+        })}
         </div>
     );
 }

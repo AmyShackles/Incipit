@@ -44,10 +44,11 @@ class App extends Component {
     this.setState({ deckPanels, deckName: "" });
   };
   addFlashCard = () => {
+    console.log('add');
     const flashcards = this.state.flashcards;
     const flashcard = {
-      front: this.state.frontInfo,
-      back: this.state.backInfo,
+      frontInfo: this.state.frontInfo,
+      backInfo: this.state.backInfo,
       likes: 0,
       dislikes: 0,
       id: Date.now()

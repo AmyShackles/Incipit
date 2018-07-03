@@ -18,6 +18,8 @@ const Card = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
+  z-index: -1;
+
   transition: transform 1s;
   transform-style: preserve-3d;
   &.is-flipped {
@@ -25,6 +27,7 @@ const Card = styled.div`
   }
 `;
 const CardFront = styled.div`
+  padding: 24px;
   position: absolute;
   height: 100%;
   width: 100%;
@@ -32,9 +35,10 @@ const CardFront = styled.div`
   backface-visibility: hidden;
 `;
 const CardBack = styled.div`
-  position: absolute;
+  padding: 24px;
   height: 100%;
   width: 100%;
+
   background: var(--grey);
   backface-visibility: hidden;
   transform: rotateX(180deg);
@@ -54,8 +58,8 @@ class Flashcard extends Component {
           }
       }>
         <Card className = {`${this.state.isFlipped ? 'is-flipped' : ''}`}>
-          <CardFront>front</CardFront>
-          <CardBack >back</CardBack>
+          <CardFront>{this.props.frontInfo}</CardFront>
+          <CardBack >{this.props.backInfo}</CardBack>
         </Card>
       </FlashcardContainer>
     );
