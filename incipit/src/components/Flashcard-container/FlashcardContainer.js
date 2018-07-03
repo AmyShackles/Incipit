@@ -14,9 +14,8 @@ const FlashcardContainer = props => {
         {props.flashcards ? props.flashcards.cards.map(flashcard => {
           subject = flashcard._id
           return (
-            <div className="column is-half">
+            <div className="column is-half" key={flashcard._id}>
               <Flashcard
-                key = {flashcard._id}
                 frontInfo = {flashcard.front}
                 backInfo = {flashcard.back}
               />
