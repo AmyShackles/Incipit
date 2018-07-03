@@ -62,7 +62,7 @@ componentDidMount() {
   }
 ] */
   
-  getAllCardsofDeck = (id) => {
+  getDeck = (id) => {
     axios.get(`http://localhost:5000/api/deck/${id}`)
       .then(response => {
         this.setState({
@@ -146,7 +146,7 @@ componentDidMount() {
         })
       })
   }
-
+/* addDeck is now working with back-end */
   addDeck = () => {
     const deckPanels = this.state.deckPanels;
     const deckPanel = {
@@ -192,8 +192,9 @@ componentDidMount() {
               hamburgerHandler={this.makeHamburgerActive}
               addModalHandler={this.makeAddModalActive}
               flashCardModalHandler={this.makeFlashcardModalActive}
-              flashcards={this.state.flashcards}
               deckPanels={this.state.deckPanels}
+              getDeck={this.getDeck}
+              flashcards={this.state.cardsInDeck}
             />
           )}
         />

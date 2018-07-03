@@ -23,10 +23,12 @@ const FlashCardPage = (props) => {
         isHamburgerActive = {props.isHamburgerActive} 
         addModalHandler = {props.addModalHandler}
         deckPanels = {props.deckPanels}
+        getDeck= {props.getDeck}
         />
       <FlashcardContainer
       addFlashCardHandler = {props.addFlashCardHandler}
       flashCardModalHandler = {props.flashCardModalHandler}
+      deckPanels = {props.deckPanels}
       flashcards = {props.flashcards} 
       />
       </PageWrapper>

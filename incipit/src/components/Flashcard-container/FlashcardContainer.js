@@ -9,21 +9,21 @@ const FlashcardContainer = props => {
   return (
     <div className="flashcard-container">
       <div className="columns is-multiline">
-        {props.flashcards.map(flashcard => {
+        {/* Changed this so that flashcards rendered only cards in selected deck */}
+        {props.flashcards ? props.flashcards.cards.map(flashcard => {
           return (
             <div className="column is-half">
               <Flashcard
-                key = {flashcard.id}
-                frontInfo = {flashcard.frontInfo}
-                backInfo = {flashcard.backInfo}
+                key = {flashcard._id}
+                frontInfo = {flashcard.front}
+                backInfo = {flashcard.back}
               />
             </div>
           );
-        })}
+        }) : null}
         <div className="column is-half">
           <FlashcardAdder flashCardModalHandler={props.flashCardModalHandler} />
         </div>
-        
       </div>
     </div>
   );

@@ -27,7 +27,6 @@ const Hamburger = styled.i`
 const NavbarContainer = (props) => {
     return (
         <NavbarWrapper>
-            <Title>Deck title</Title>
         <Hamburger className = {`fa ${props.isHamburgerActive ? 'fa-times' : 'fa-bars'}`}
         onClick = {props.hamburgerHandler}></Hamburger>
 
