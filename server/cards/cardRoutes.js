@@ -8,10 +8,11 @@ const sendUserError = (status, message, res) => {
   return;
 };
 
-// Get all decks  -- THIS ONE WORKS
+// Get all decks and cards  -- THIS ONE WORKS
 router.get("/deck", (req, res) => {
   Deck.find()
-    .select("-__v -cards")
+    .populate("cards", "-subject -_id -__v")
+    .select("-__v")
     .then(decks => {
       res.json({ decks });
     })
@@ -35,46 +36,44 @@ router.post("/deck", (req, res) => {
       });
   }
 });
-
-// Query for cards in a deck of a certain rating
+// GET all cards of a deck
 router.get("/deck/:id", (req, res) => {
-  const { id } = req.params;
-  const { rating } = req.query;
-  if (rating) {
-    let ratingQuery = new RegExp(rating, "i");
-    Card.find()
-      .where({ rating: ratingQuery })
-      .then(cardsWithRating => {
-        res.status(200).json({ cardsWithRating });
-      })
-      .catch(err => {
-        sendUserError(404, err.message, res);
-      });
-    // Get all cards in a given deck
-  } else {
-    Deck.findById(req.params.id)
-      .populate('cards')
-      .then(deck => {
-        Card.find({ subject: id })
-          .then(cards => {
-            let currentDeck = Object.assign({}, deck._doc, { cards });
-            res.status(200).json({ currentDeck });
-          })
-          .catch(err => {
-            sendUserError(500, err.message, res);
-          });
-      })
-      .catch(err => {
-        sendUserError(500, err.message, res);
-      });
-  }
-});
+  const { rating } = req.query
+    const { id } = req.params;
+if (!rating) {
+  Deck.findOne({ _id: id })
+    .populate("cards", "-_id -__v -subject")
+    .select("name -_id")
+    .then(deck => {
+        if (deck !== null) {
+      res.status(200).json({ deck });
+        } else {
+            res.status(404).json('This deck has been removed from Incipit')
+        }
+    })
+    .catch(err => {
+      sendUserError(500, err.message, res);
+    });
+} else {
+    // GET all cards of a specific rating - WORKS (but not deck-specific)
+  Card.find()
+    .where({ rating: rating })
+    .select("-_id -__v")
+    .populate("subject", "name")
+    .then(cardsWithRating => {
+      res.status(200).json({ cardsWithRating });
+    })
+    .catch(err => {
+      sendUserError(404, err.message, res);
+    });
+    }
+})
 
-// Add a new card to a deck
+// Add a new card to a deck - THIS WORKS
 router.post("/deck/:id", (req, res) => {
   const { id } = req.params;
-  const { subject, front, back } = req.body;
-  if (!subject || !front || !back) {
+  const { front, back } = req.body;
+  if (!front || !back) {
     sendUserError(
       400,
       "All cards must contain a subject, a front, and a back",
@@ -102,7 +101,7 @@ router.post("/deck/:id", (req, res) => {
   }
 });
 
-// Edit a deck (should only be name, right?)
+// Edit the name of a deck - THIS WORKS
 router.put("/deck/:id", (req, res) => {
   const { id } = req.params;
   const updates = req.body;
@@ -111,11 +110,13 @@ router.put("/deck/:id", (req, res) => {
   });
 });
 
-// Delete a deck
+// Delete a deck - THIS WORKS
 router.delete("/deck/:id", (req, res) => {
   const { id } = req.params;
   Deck.findByIdAndRemove(id)
     .then(deletedDeck => {
+        Card.deleteMany({ subject: id })
+            .then(deletedCards => {
       if (deletedDeck !== null) {
         res.json({ deletedDeck });
       } else {
@@ -123,32 +124,43 @@ router.delete("/deck/:id", (req, res) => {
       }
     })
     .catch(err => sendUserError(500, err.message, res));
+}).catch(err => sendUserError(500, err.message, res))
 });
 
-// Get a specific card in a deck
+// Get a specific card in a deck - THIS WORKS
 router.get("/deck/:id/:cardId", (req, res) => {
-  const { cardId } = req.params;
-  Card.findById(cardId)
+  const { id, cardId } = req.params;
+  Deck.findById(id)
+    .then(selectedDeck => {
+    Card.find({ _id: cardId, subject: id})
     .then(selectedCard => {
+        if (selectedCard.length > 0) {
       res.status(200).json({ selectedCard });
+        } else {
+            sendUserError(404, 'There is no card with that ID in this deck', res)
+        }
     })
     .catch(err => {
       sendUserError(404, err.message, res);
     });
+    })
+    .catch(err => {
+        sendUserError(500, err.message, res)
+    })
 });
 
 // Edit a specific card in a deck
 router.put("/deck/:id/:cardId", (req, res) => {
   const { id, cardId } = req.params;
-  const { front, back, rating, newSubject } = req.body;
+  const { front, back, rating, subject } = req.body;
   // if updating front, back, and subject
   if (subject) {
-    Deck.findByIdAndUpdate({ id }, newSubject, { upsert: true, new: true });
+    Deck.findByIdAndUpdate({ id }, subject, { upsert: true, new: true });
   }
   if (front && back && subject) {
     Card.findByIdAndUpdate(
       cardId,
-      { $set: { front, back, subject: newSubject } },
+      { $set: { front, back, subject: subject } },
       { new: true }
     )
       .then(updatedCard => {
@@ -170,7 +182,7 @@ router.put("/deck/:id/:cardId", (req, res) => {
   } else if (back && subject) {
     Card.findByIdAndUpdate(
       cardId,
-      { $set: { back, subject: newSubject } },
+      { $set: { back, subject: subject } },
       { new: true }
     )
       .then(updatedCard => {
@@ -183,7 +195,7 @@ router.put("/deck/:id/:cardId", (req, res) => {
   } else if (front && subject) {
     Card.findByIdAndUpdate(
       query,
-      { $set: { front, subject: newSubject } },
+      { $set: { front, subject: subject } },
       { new: true }
     )
       .then(updatedCard => {
