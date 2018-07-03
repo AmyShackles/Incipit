@@ -68,7 +68,10 @@ const SidebarContainer = props => {
       </div>
       <AddButton onClick = {props.addModalHandler}>Add New Deck</AddButton>
       <DeckContainer>
-     
+      {props.deckPanels.map(panel => {
+        return <DeckPanel key = {panel.id}>{panel.name}</DeckPanel>
+      }
+      )}
       </DeckContainer>
     </SidebarWrapper>
   );

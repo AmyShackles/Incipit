@@ -15,7 +15,12 @@ const AddDeckModal = (props) => {
           <div className="field">
             <label className="label">Deck Name</label>
             <div className="control">
-              <input className="input" type="text" placeholder="Name" />
+              <input className="input" 
+              type="text" 
+              name = 'deckName' 
+              onChange = {props.changeHandler}
+              value={props.deckName}
+              placeholder="Name" />
             </div>
           </div>
           <div className = "control">
@@ -30,7 +35,10 @@ const AddDeckModal = (props) => {
           </div>
         </section>
         <footer className="modal-card-foot">
-          <button className="button is-info" onClick = {props.addModalHandler}>Add</button>
+          <button className="button is-info" onClick = {() => {
+            props.addDeckHandler();
+            props.addModalHandler();
+            }}>Add</button>
           <button className="button" onClick = {props.addModalHandler}>Cancel</button>
         </footer>
       </div>

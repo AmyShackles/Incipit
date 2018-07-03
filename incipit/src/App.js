@@ -12,7 +12,8 @@ class App extends Component {
     this.state ={
       isHamburgerActive: false,
       isAddModalActive: false,
-    
+      deckName: '',
+      deckPanels: []
     };
   }
   makeHamburgerActive = () => {
@@ -20,6 +21,17 @@ class App extends Component {
   }
   makeAddModalActive = () => {
     this.setState({isAddModalActive: !this.state.isAddModalActive });
+  }
+
+  addDeck = () => {
+    const deckPanels = this.state.deckPanels;
+    const deckPanel = { name: this.state.deckName, id: Date.now()}
+    deckPanels.push(deckPanel);
+
+    this.setState({ deckPanels, deckName: '' });
+  }
+  detectChange = (e) => {
+    this.setState({[e.target.name]: e.target.value});
   }
   render() {
     return (
@@ -30,13 +42,21 @@ class App extends Component {
         <Route exact path='/flashcard-app' render={props => <FlashCardPage {...props} 
         isHamburgerActive = {this.state.isHamburgerActive}
         hamburgerHandler = {this.makeHamburgerActive}
-        addModalHandler = {this.makeAddModalActive}/>}
+        addModalHandler = {this.makeAddModalActive}
+        deckPanels = {this.state.deckPanels}
+        />}
         />
 
 
 
         <AddDeckModal addModalActive = {this.state.isAddModalActive}
-        addModalHandler={this.makeAddModalActive}/>
+        addModalHandler={this.makeAddModalActive}
+        addDeckHandler = {this.addDeck}
+        changeHandler = {this.detectChange}
+        addDeckHandler = {this.addDeck}
+        deckName = {this.state.deckName}/>
+        
+
       </div>
     );
   }
