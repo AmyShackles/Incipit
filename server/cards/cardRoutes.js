@@ -222,18 +222,30 @@ Updates the deck that has the id of the subject to be changed
             })
   }
 });
-
+/* Remove card from deck
+Removes card by ID
+Then does an update of the deck to remove card with cardId
+THIS WORKS */
 router.delete("/deck/:id/:cardId", (req, res) => {
   const { id, cardId } = req.params;
-  Deck.findOneAndRemove({ name: subject, "cards._id": id })
-    .then(deletedCard => {
-      if (deletedCard !== null) {
-        res.json({ deletedCard });
-      } else {
-        sendUserError(404, "This card has already been removed", res);
-      }
+  Card.findByIdAndRemove(cardId)
+    .then(removedCard => {
+        Deck.update({ _id: id }, { $pull: { cards: cardId }})
+            .then(removedFromDeck => {
+                if (removedFromDeck !== null) {
+                let cardRemoved = Object.assign({}, removedCard._doc, { removedFromDeck })
+                res.status(200).json({ cardRemoved })
+            } else {
+                res.status(404).json('That card has already been removed from Incipit')
+            }
+            })
+            .catch(err => {
+                res.status(500).json(err.message)
+            })
     })
-    .catch(err => sendUserError(500, err.message, res));
+    .catch(err => {
+        res.status(500).json(err.message)
+    })
 });
 
 module.exports = router;
