@@ -53,6 +53,14 @@ componentDidMount() {
         })
       })
   }
+  getDeck = (id) => {
+    axios.get(`http://localhost:5000/api/deck/${id}`)
+      .then(response => {
+        this.setState({
+        cardsInDeck: response.data.deck
+      })
+    })
+  }
   makeEditModalActive = () => {
     this.setState({isEditModalActive: !this.state.isEditModalActive});
   }
@@ -79,14 +87,7 @@ componentDidMount() {
 ] */
 
   /* GetDeck's being used to populate cards of a specific deck */
-  getDeck = (id) => {
-    axios.get(`http://localhost:5000/api/deck/${id}`)
-      .then(response => {
-        this.setState({
-        cardsInDeck: response.data.deck
-      })
-    })
-  }
+
 /* Don't know if we'll want to use this one/if we'll have time
 
   getAllCardsOfARating = (id, rating) => {
@@ -190,6 +191,7 @@ componentDidMount() {
     this.setState({ [e.target.name]: e.target.value });
   };
   render() {
+    let id = ''
     return (
       <div className="App">
         <Route exact path="/" component={LandingContainer} />
@@ -242,6 +244,7 @@ componentDidMount() {
         deckName={this.state.deckName}
         getIndividualCard = {this.getIndividualCard}
         getDeck={this.getDeck}
+        id={this.state.cardsInDeck}
         />
       </div>
     );
