@@ -61,7 +61,8 @@ componentDidMount() {
     name: String // name of deck (I think you're using 'category')
   }
 ] */
-  
+
+  /* GetDeck's being used to populate cards of a specific deck */
   getDeck = (id) => {
     axios.get(`http://localhost:5000/api/deck/${id}`)
       .then(response => {
@@ -149,7 +150,9 @@ componentDidMount() {
         this.setState({ deckPanels, deckName: "", category: "" });
       })
   }
-  addFlashCard = (id) => {
+  /* Now adding flashcards goes to and from database/server */
+  addFlashCard = () => {
+    let id = this.state.cardsInDeck._id
     const flashcard = {
       front: this.state.frontInfo,
       back: this.state.backInfo,
@@ -160,7 +163,7 @@ componentDidMount() {
     .then(response => {
       const flashcards = this.state.cardsInDeck;
       let newCard = response.data.newCard
-      flashcards.unshift(newCard)
+      flashcards.cards.unshift(newCard)
       this.setState({
         cardsInDeck: flashcards
       })
