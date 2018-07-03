@@ -8,10 +8,11 @@ const sendUserError = (status, message, res) => {
   return;
 };
 
-// Get all decks  -- THIS ONE WORKS
+// Get all decks and cards  -- THIS ONE WORKS
 router.get("/deck", (req, res) => {
   Deck.find()
-    .select("-__v -cards")
+    .populate("cards", "-__v")
+    .select("-__v")
     .then(decks => {
       res.json({ decks });
     })
@@ -22,9 +23,9 @@ router.get("/deck", (req, res) => {
 
 // Add a new deck -- THIS ONE WORKS
 router.post("/deck", (req, res) => {
-  const { name } = req.body;
-  if (!name) {
-    sendUserError(400, "A subject must have a name", res);
+  const { name, category } = req.body;
+  if (!name || !category) {
+    sendUserError(400, "A deck must have a name and private/public category", res);
   } else {
     Deck.create(req.body)
       .then(newDeck => {
@@ -35,46 +36,44 @@ router.post("/deck", (req, res) => {
       });
   }
 });
-
-// Query for cards in a deck of a certain rating
+// GET all cards of a deck
 router.get("/deck/:id", (req, res) => {
-  const { id } = req.params;
-  const { rating } = req.query;
-  if (rating) {
-    let ratingQuery = new RegExp(rating, "i");
-    Card.find()
-      .where({ rating: ratingQuery })
-      .then(cardsWithRating => {
-        res.status(200).json({ cardsWithRating });
-      })
-      .catch(err => {
-        sendUserError(404, err.message, res);
-      });
-    // Get all cards in a given deck
-  } else {
-    Deck.findById(req.params.id)
-      .populate('cards')
-      .then(deck => {
-        Card.find({ subject: id })
-          .then(cards => {
-            let currentDeck = Object.assign({}, deck._doc, { cards });
-            res.status(200).json({ currentDeck });
-          })
-          .catch(err => {
-            sendUserError(500, err.message, res);
-          });
-      })
-      .catch(err => {
-        sendUserError(500, err.message, res);
-      });
-  }
-});
+  const { rating } = req.query
+    const { id } = req.params;
+if (!rating) {
+  Deck.findOne({ _id: id })
+    .populate("cards", "-__v -subject")
+    .select("name")
+    .then(deck => {
+        if (deck !== null) {
+      res.status(200).json({ deck });
+        } else {
+            res.status(404).json('This deck has been removed from Incipit')
+        }
+    })
+    .catch(err => {
+      sendUserError(500, err.message, res);
+    });
+} else {
+    // GET all cards of a specific rating - WORKS (but not deck-specific)
+  Card.find()
+    .where({ rating: rating })
+    .select("-__v")
+    .populate("subject", "name")
+    .then(cardsWithRating => {
+      res.status(200).json({ cardsWithRating });
+    })
+    .catch(err => {
+      sendUserError(404, err.message, res);
+    });
+    }
+})
 
-// Add a new card to a deck
+// Add a new card to a deck - THIS WORKS
 router.post("/deck/:id", (req, res) => {
   const { id } = req.params;
-  const { subject, front, back } = req.body;
-  if (!subject || !front || !back) {
+  const { front, back } = req.body;
+  if (!front || !back) {
     sendUserError(
       400,
       "All cards must contain a subject, a front, and a back",
@@ -102,7 +101,7 @@ router.post("/deck/:id", (req, res) => {
   }
 });
 
-// Edit a deck (should only be name, right?)
+// Edit the name of a deck - THIS WORKS
 router.put("/deck/:id", (req, res) => {
   const { id } = req.params;
   const updates = req.body;
@@ -111,128 +110,142 @@ router.put("/deck/:id", (req, res) => {
   });
 });
 
-// Delete a deck
+// Delete a deck - THIS WORKS
 router.delete("/deck/:id", (req, res) => {
   const { id } = req.params;
   Deck.findByIdAndRemove(id)
     .then(deletedDeck => {
+        Card.deleteMany({ subject: id })
+            .then(deletedCards => {
       if (deletedDeck !== null) {
-        res.json({ deletedDeck });
+        res.json({ deletedDeck })
       } else {
         sendUserError(404, "This deck has already been removed", res);
       }
     })
     .catch(err => sendUserError(500, err.message, res));
+}).catch(err => sendUserError(500, err.message, res))
 });
 
-// Get a specific card in a deck
+// Get a specific card in a deck - THIS WORKS
 router.get("/deck/:id/:cardId", (req, res) => {
-  const { cardId } = req.params;
-  Card.findById(cardId)
+  const { id, cardId } = req.params;
+  Deck.findById(id)
+    .then(selectedDeck => {
+    Card.find({ _id: cardId, subject: id})
     .then(selectedCard => {
+        if (selectedCard.length > 0) {
       res.status(200).json({ selectedCard });
+        } else {
+            sendUserError(404, 'There is no card with that ID in this deck', res)
+        }
     })
     .catch(err => {
       sendUserError(404, err.message, res);
     });
+    })
+    .catch(err => {
+        sendUserError(500, err.message, res)
+    })
 });
 
 // Edit a specific card in a deck
 router.put("/deck/:id/:cardId", (req, res) => {
   const { id, cardId } = req.params;
-  const { front, back, rating, newSubject } = req.body;
-  // if updating front, back, and subject
-  if (subject) {
-    Deck.findByIdAndUpdate({ id }, newSubject, { upsert: true, new: true });
-  }
-  if (front && back && subject) {
-    Card.findByIdAndUpdate(
-      cardId,
-      { $set: { front, back, subject: newSubject } },
-      { new: true }
-    )
-      .then(updatedCard => {
-        res.send(200).json({ updatedCard });
-      })
-      .catch(err => {
-        sendUserError(500, err.message, res);
-      });
-    // if updating front and back
-  } else if (front && back) {
+  const { front, back, rating, subject } = req.body;
+  // if updating front and back - THIS WORKS (in either order)
+   if (front && back) {
     Card.findByIdAndUpdate(cardId, { $set: { front, back } }, { new: true })
       .then(updatedCard => {
-        res.send(200).json({ updatedCard });
+        res.status(200).json({ updatedCard });
       })
       .catch(err => {
         sendUserError(500, err.message, res);
       });
-    // if updating back and subject
-  } else if (back && subject) {
-    Card.findByIdAndUpdate(
-      cardId,
-      { $set: { back, subject: newSubject } },
-      { new: true }
-    )
-      .then(updatedCard => {
-        res.send(200).json({ updatedCard });
-      })
-      .catch(err => {
-        sendUserError(500, err.message, res);
-      });
-    // if updating front and subject
-  } else if (front && subject) {
-    Card.findByIdAndUpdate(
-      query,
-      { $set: { front, subject: newSubject } },
-      { new: true }
-    )
-      .then(updatedCard => {
-        res.send(200).json({ updatedCard });
-      })
-      .catch(err => {
-        sendUserError(500, err.message, res);
-      });
-    // if updating front
+    // if updating front only - THIS WORKS
   } else if (front) {
-    Card.findByIdAndUpdate(query, { $set: { front } }, { new: true })
+    Card.findByIdAndUpdate(cardId, { $set: { front } }, { new: true })
       .then(updatedCard => {
-        res.send(200).json({ updatedCard });
+        res.status(200).json({ updatedCard });
       })
       .catch(err => {
         sendUserError(500, err.message, res);
       });
-    // if updating back
+    // if updating back only - THIS WORKS
   } else if (back) {
-    Card.findByIdAndUpdate(query, { $set: { back } }, { new: true })
+    Card.findByIdAndUpdate(cardId, { $set: { back } }, { new: true })
       .then(updatedCard => {
-        res.send(200).json({ updatedCard });
+        res.status(200).json({ updatedCard });
       })
       .catch(err => {
         sendUserError(500, err.message, res);
       });
-    // if updating rating
+    // if updating rating - THIS WORKS
   } else if (rating) {
     Card.findByIdAndUpdate(cardId, { $set: { rating } }, { new: true })
       .then(updatedCard => {
-        res.send(200).json({ updatedCard });
+        res.status(200).json({ updatedCard });
       })
       .catch(err => {
-        res.send(200).json({ updatedCard });
+        res.status(200).json({ updatedCard });
       });
+  } else if (subject) {
+/* Updates deck of card
+Updates the card so that the subject is changed to subject from req.body
+Updates the deck that has the id of req.params.id
+    to remove the card with the cardId
+Updates the deck that has the id of the subject to be changed 
+    to add the card with the cardId  - THIS WORKS */
+        Card.findOneAndUpdate({ _id: cardId }, { $set: { "subject": subject }}, { new: true })
+            .then(updatedCard => {
+                    Deck.update({ _id: id }, { $pull: { cards: cardId }})
+            .then(removedDeck => {
+                Deck.update({ _id: subject}, { $push: { cards: cardId }})
+            .then(addedDeck => {
+                if (updatedCard !== null) {
+                    let updateOfCard = Object.assign({}, updatedCard._doc, { removedDeck, addedDeck })
+                    res.status(200).json({ updateOfCard })
+                } else {
+                    res.status(404).json( 'That card is no longer on Incipit' )
+                }
+            })
+            .catch(err => {
+                sendUserError(500, err.message, res)
+            })
+            })
+            .catch(err => {
+                sendUserError(500, err.message, res)
+            })
+            })
+            .catch(err => {
+                sendUserError(500, err.message, res)
+            })
   }
 });
-
-router.delete("/deck/:subject/:id", (req, res) => {
-  const { subject, id } = req.params;
-  Deck.findOneAndRemove({ name: subject, "cards._id": id })
-    .then(deletedCard => {
-      if (deletedCard !== null) {
-        res.json({ deletedCard });
-      } else {
-        sendUserError(404, "This card has already been removed", res);
-      }
+/* Remove card from deck
+Removes card by ID
+Then does an update of the deck to remove card with cardId
+THIS WORKS */
+router.delete("/deck/:id/:cardId", (req, res) => {
+  const { id, cardId } = req.params;
+  Card.findByIdAndRemove(cardId)
+    .then(removedCard => {
+        Deck.update({ _id: id }, { $pull: { cards: cardId }})
+            .then(removedFromDeck => {
+                if (removedFromDeck !== null) {
+                let cardRemoved = Object.assign({}, removedCard._doc, { removedFromDeck })
+                res.status(200).json({ cardRemoved })
+            } else {
+                res.status(404).json('That card has already been removed from Incipit')
+            }
+            })
+            .catch(err => {
+                res.status(500).json(err.message)
+            })
     })
-    .catch(err => sendUserError(500, err.message, res));
+    .catch(err => {
+        res.status(500).json(err.message)
+    })
 });
 
 module.exports = router;

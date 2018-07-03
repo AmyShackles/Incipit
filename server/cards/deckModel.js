@@ -9,7 +9,11 @@ const deckSchema = new mongoose.Schema({
   cards: [{
     type: ObjectId,
     ref: 'Card'
-  }]
+  }],
+  category: {
+    type: String,
+    enum: ['public', 'private']
+  }
 });
 
 module.exports = mongoose.model("Deck", deckSchema);
