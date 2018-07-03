@@ -60,15 +60,6 @@ class Flashcard extends Component {
   }
   render() {
     return (
-<<<<<<< HEAD
-      <FlashcardContainer onClick = { () => {
-            this.setState({ isFlipped: !this.state.isFlipped })
-          }
-      }>
-        <Card className = {`${this.state.isFlipped ? 'is-flipped' : ''}`}>
-          <CardFront>{this.props.frontInfo}</CardFront>
-          <CardBack >{this.props.backInfo}</CardBack>
-=======
       <FlashcardContainer onClick={(e) => {
           this.setState({ isFlipped: !this.state.isFlipped });
 
@@ -93,7 +84,6 @@ class Flashcard extends Component {
 
           </CardBack>
           
->>>>>>> 387236e7df8eb1492ae4717fc1f403af2eb302d0
         </Card>
 
       </FlashcardContainer>
