@@ -1,3 +1,4 @@
+require('dotenv').load()
 const express = require('express')
 
 const db = require('./_config/db');
