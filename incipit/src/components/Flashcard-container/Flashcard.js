@@ -71,6 +71,9 @@ class Flashcard extends Component {
             dropdownActive = {this.state.dropdownActive1}
             dropdownHandler = {this.makeDropdownActive1}
             editModalHandler = {this.props.editModalHandler}
+            getIndividualCard = {this.props.getIndividualCard}
+            subject = {this.props.subject}
+            currentCard = {this.props.flashcard}
             deleteModalHandler = {this.props.deleteModalHandler}
             />
           </CardFront>
@@ -79,6 +82,9 @@ class Flashcard extends Component {
             dropdownActive = {this.state.dropdownActive2}
             dropdownHandler = {this.makeDropdownActive2}
             editModalHandler = {this.props.editModalHandler}
+            getIndividualCard = {this.props.getIndividualCard}
+            subject = {this.props.subject}
+            currentCard = {this.props.flashcard}
             deleteModalHandler = {this.props.deleteModalHandler}
             />
 

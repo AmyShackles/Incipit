@@ -49,7 +49,7 @@ const FlashcardDropdown = props => {
                 }}>Edit</DropdownItem>
             <hr className="dropdown-divider" />
             <DropdownItem className="dropdown-item" onClick = {() => {
-                props.deleteModalHandler();
+                props.deleteModalHandler(props.subject, props.currentCard);
                 }}>Delete</DropdownItem>
           </div>
         </div>

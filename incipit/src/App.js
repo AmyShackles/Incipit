@@ -206,9 +206,9 @@ componentDidMount() {
               flashCardModalHandler={this.makeFlashcardModalActive}
               editModalHandler = {this.makeEditModalActive}
               deleteModalHandler = {this.makeDeleteModalActive}
-              flashcards={this.state.flashcards}
               deckPanels={this.state.deckPanels}
               getDeck={this.getDeck}
+              getIndividualCard = {this.getIndividualCard}
               flashcards={this.state.cardsInDeck}
             />
           )}
@@ -232,11 +232,16 @@ componentDidMount() {
         <EditModal 
         editState = {this.state.isEditModalActive}
         editModalHandler = {this.makeEditModalActive}
+        deckName={this.state.deckName}
+        getIndividualCard = {this.getIndividualCard}
+        getDeck={this.getDeck}
         />
         <DeleteModal 
         deleteState = {this.state.isDeleteModalActive}
         deleteModalHandler = {this.makeDeleteModalActive}
-
+        deckName={this.state.deckName}
+        getIndividualCard = {this.getIndividualCard}
+        getDeck={this.getDeck}
         />
       </div>
     );

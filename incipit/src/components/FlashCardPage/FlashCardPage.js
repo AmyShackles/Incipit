@@ -27,6 +27,7 @@ const FlashCardPage = (props) => {
         />
       <FlashcardContainer
       addFlashCardHandler = {props.addFlashCardHandler}
+      getIndividualCard = {props.getIndividualCard}
       flashCardModalHandler = {props.flashCardModalHandler}
       flashcards = {props.flashcards}
       editModalHandler = {props.editModalHandler}
