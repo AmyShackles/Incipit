@@ -1,5 +1,6 @@
 require('dotenv').load()
 const express = require('express')
+const mongoose = require('mongoose')
 
 const db = require('./_config/db');
 const setupMiddleware = require('./_config/middleware')
