@@ -48,12 +48,15 @@ class Flashcard extends Component {
     super(props);
     this.state = {
       isFlipped: false,
-      dropdownActive: false,
+      dropdownActive1: false,
+      dropdownActive2: false,
     };
   }
-  makeDropdownActive = () => {
-    console.log('test')
-    this.setState({ dropdownActive: !this.state.dropdownActive});
+  makeDropdownActive1 = () => {
+    this.setState({ dropdownActive1: !this.state.dropdownActive1});
+  }
+  makeDropdownActive2 = () => {
+    this.setState({ dropdownActive2: !this.state.dropdownActive2});
   }
   render() {
     return (
@@ -65,10 +68,22 @@ class Flashcard extends Component {
           <CardFront>
             {this.props.frontInfo}
             <FlashcardDropdown 
-            dropdownActive = {this.state.dropdownActive}
-            dropdownHandler = {this.makeDropdownActive}/>
+            dropdownActive = {this.state.dropdownActive1}
+            dropdownHandler = {this.makeDropdownActive1}
+            editModalHandler = {this.props.editModalHandler}
+            deleteModalHandler = {this.props.deleteModalHandler}
+            />
           </CardFront>
-          <CardBack>{this.props.backInfo}</CardBack>
+          <CardBack>{this.props.backInfo}
+          <FlashcardDropdown 
+            dropdownActive = {this.state.dropdownActive2}
+            dropdownHandler = {this.makeDropdownActive2}
+            editModalHandler = {this.props.editModalHandler}
+            deleteModalHandler = {this.props.deleteModalHandler}
+            />
+
+          </CardBack>
+          
         </Card>
 
       </FlashcardContainer>

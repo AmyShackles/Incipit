@@ -7,6 +7,8 @@ const Dropdown = styled.div`
   position: absolute;
   top: 0;
   right: 0;
+  backface-visibility: hidden;
+  
 `;
 const DropdownItem = styled.div.attrs({
     className: 'dropdown-item'
@@ -41,9 +43,14 @@ const FlashcardDropdown = props => {
         </div>
         <div className="dropdown-menu" id="dropdown-menu6" role="menu">
           <div className="dropdown-content">
-            <DropdownItem className="dropdown-item">Edit</DropdownItem>
+            <DropdownItem className="dropdown-item" name = 'isEditModalActive' 
+                onClick = {() => {
+                props.editModalHandler();
+                }}>Edit</DropdownItem>
             <hr className="dropdown-divider" />
-            <DropdownItem className="dropdown-item">Delete</DropdownItem>
+            <DropdownItem className="dropdown-item" onClick = {() => {
+                props.deleteModalHandler();
+                }}>Delete</DropdownItem>
           </div>
         </div>
       </div>
