@@ -1,6 +1,7 @@
 import React from "react";
 import NavbarContainer from "./Navbar/NavbarContainer";
 import SidebarContainer from "./Sidebar/SidebarContainer";
+import FlashcardContainer from "./../Flashcard-container/FlashcardContainer";
 import "../bulma.css";
 import styled from "styled-components";
 
@@ -23,7 +24,7 @@ const FlashCardPage = (props) => {
         addModalHandler = {props.addModalHandler}
         deckPanels = {props.deckPanels}
         />
-
+      <FlashcardContainer />
       </PageWrapper>
     </div>
   );
