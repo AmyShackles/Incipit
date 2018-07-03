@@ -1,19 +1,22 @@
-import React, { Component } from 'react';
-import './components/global-variables.css';
-import './components/bulma.css';
-import './App.css';
-import { Route } from 'react-router-dom';
-import AddDeckModal from './components/Modals/AddDeckModal';
-import LandingContainer from './components/LandingContainer/LandingContainer';
-import FlashCardPage from './components/FlashCardPage/FlashCardPage';
+import "./App.css";
+import { Route } from "react-router-dom";
+import AddDeckModal from "./components/Modals/AddDeckModal";
+import AddFlashcardModal from "./components/Modals/AddFlashcardModal";
+import LandingContainer from "./components/LandingContainer/LandingContainer";
+import FlashCardPage from "./components/FlashCardPage/FlashCardPage";
 class App extends Component {
   constructor() {
     super();
-    this.state ={
+    this.state = {
       isHamburgerActive: false,
       isAddModalActive: false,
-      deckName: '',
-      deckPanels: []
+      isFlashcardModalActive: false,
+
+      deckName: "",
+      deckPanels: [],
+      flashcards: [],
+      frontInfo: "",
+      backInfo: "",
     };
   }
   makeHamburgerActive = () => {
