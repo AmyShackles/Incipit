@@ -2,6 +2,7 @@ import React from 'react';
 import '../bulma.css';
 import '../global-variables.css';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const BrandName = styled.h1`
     color: var(--brand-white);
@@ -62,7 +63,9 @@ const LandingContainer = () => {
             <CustomHeroBody>
             <BrandName>Insipit</BrandName>
             <Subtitle>The only flashcard program you will ever need.</Subtitle>
+            <Link to = '/flashcard-app'>
             <CtaStartButton>Start Your Journey</CtaStartButton>
+            </Link>
             <ConvinceText className="small">Still not convinced... Try it out,<br/> no registration is required.</ConvinceText>
             </CustomHeroBody>
         </div>
