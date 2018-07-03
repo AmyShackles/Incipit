@@ -1,4 +1,4 @@
 [build]
-    base = "./incipit/"
+    base = "./incipit"
     publish = "./incipit/build"
     comamnd = "yarn build"
