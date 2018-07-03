@@ -2,6 +2,9 @@
   "name": "incipit",
   "version": "1.0.0",
   "main": "server.js",
+  "start": {
+    "script": "nodemon server.js"
+  },
   "repository": "https://github.com/AmyShackles/Incipit.git",
   "author": "AmyShackles <amyshackles@gmail.com>",
   "license": "MIT",
@@ -11,6 +14,7 @@
     "express": "^4.16.3",
     "helmet": "^3.12.1",
     "mongoose": "^5.1.7",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "nodemon": "^1.17.5"
   }
 }
