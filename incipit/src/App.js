@@ -46,7 +46,7 @@ class App extends Component {
   };
 /* THIS IS WHERE AMY STARTED ADDING THINGS */
 componentDidMount() {
-    axios.get('http://localhost:5000/api/deck')
+    axios.get(`${process.env.REACT_APP_ENDPOINT}/api/deck`)
       .then(response => {
         this.setState({
           deckPanels: response.data.decks
@@ -54,7 +54,7 @@ componentDidMount() {
       })
   }
   getDeck = (id) => {
-    axios.get(`http://localhost:5000/api/deck/${id}`)
+    axios.get(`${process.env.REACT_APP_ENDPOINT}/api/deck/${id}`)
       .then(response => {
         this.setState({
         cardsInDeck: response.data.deck
@@ -91,7 +91,7 @@ componentDidMount() {
 /* Don't know if we'll want to use this one/if we'll have time
 
   getAllCardsOfARating = (id, rating) => {
-    axios.get(`http://localhost:5000/api/deck/${id}?rating=${rating}`)
+    axios.get(`${process.env.REACT_APP_ENDPOINT}/api/deck/${id}?rating=${rating}`)
       .then(response => {
         this.setState({
           cardsWithRating: response.data.cardsWithRating
@@ -101,7 +101,7 @@ componentDidMount() {
 
   /* updateDeck is for changing the name of a deck */
   updateDeck = (id, updates) => {
-    axios.put(`http://localhost:5000/api/deck/${id}`, updates)
+    axios.put(`${process.env.REACT_APP_ENDPOINT}/api/deck/${id}`, updates)
       .then(response => {
         let deck = this.state.decks
         let editedDeck = deck.filter(card => card._id !== response.data.updatedDeck._id)
@@ -113,7 +113,7 @@ componentDidMount() {
   }
   /* deleteDeck also deletes all cards in the deck */
   deleteDeck = (id) => {
-    axios.delete(`http://localhost:5000/api/deck/${id}`)
+    axios.delete(`${process.env.REACT_APP_ENDPOINT}/api/deck/${id}`)
       .then(response => {
         let sparedDecks = this.state.decks.filter(card => card._id !== response.data.deletedDeck._id)
         this.setState({
@@ -122,7 +122,7 @@ componentDidMount() {
       })
   }
   getIndividualCard = (id, cardId) => {
-    axios.get(`http://localhost:5000/api/deck/${id}/${cardId}`)
+    axios.get(`${process.env.REACT_APP_ENDPOINT}/api/deck/${id}/${cardId}`)
       .then(response => {
         this.setState({
           selectedCard: response.data.selectedCard
@@ -132,7 +132,7 @@ componentDidMount() {
   /* editIndividualCard can be used for editing anything -
 (And by anything, I mean: front & back, front, back, rating, or subject) */
   editIndividualCard = (id, cardId, updates) => {
-    axios.put(`http://localhost:5000/api/deck/${id}/${cardId}`, updates)
+    axios.put(`${process.env.REACT_APP_ENDPOINT}/api/deck/${id}/${cardId}`, updates)
       .then(response => {
         let currentCards = this.state.cardsInDeck
         let editedCards = currentCards.filter(card => card._id !== response.data.updatedCard._id)
@@ -144,7 +144,7 @@ componentDidMount() {
       })
   }
   deleteIndividualCard = (id, cardId) => {
-    axios.delete(`http://localhost:5000/api/deck/${id}/${cardId}`)
+    axios.delete(`${process.env.REACT_APP_ENDPOINT}/api/deck/${id}/${cardId}`)
       .then(response => {
         let sparedCards = this.state.cardsInDeck.filter(card => card._id !== response.data.cardRemoved._id)
         this.setState({
@@ -160,7 +160,7 @@ componentDidMount() {
       name: this.state.deckName,
       category: this.state.category
     };
-    axios.post(`http://localhost:5000/api/deck/`, deckPanel)
+    axios.post(`${process.env.REACT_APP_ENDPOINT}/api/deck/`, deckPanel)
       .then(response => {
         let newDeck = response.data.newDeck;
         deckPanels.push(newDeck);
@@ -176,7 +176,7 @@ componentDidMount() {
       likes: 0,
       dislikes: 0,
     };
-    axios.post(`http://localhost:5000/api/deck/${id}`, flashcard)
+    axios.post(`${process.env.REACT_APP_ENDPOINT}/api/deck/${id}`, flashcard)
     .then(response => {
       const flashcards = this.state.cardsInDeck;
       let newCard = response.data.newCard
