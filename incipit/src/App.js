@@ -193,7 +193,6 @@ componentDidMount() {
     this.setState({ [e.target.name]: e.target.value });
   };
   render() {
-    let id = ''
     return (
       <div className="App">
         <Route exact path="/" component={LandingContainer} />

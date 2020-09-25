@@ -14,11 +14,11 @@ background: #24292c6b;
 border-bottom-left-radius: 6px;
 border-bottom-right-radius: 6px;
 `;
-const Title = styled.h1`
-    text-transform: uppercase;
-    font-size: 5rem;
-    letter-spacing: .7rem;
-`;
+// const Title = styled.h1`
+//     text-transform: uppercase;
+//     font-size: 5rem;
+//     letter-spacing: .7rem;
+// `;
 const Hamburger = styled.i`
     font-size: 4.4rem;
     cursor: pointer;
