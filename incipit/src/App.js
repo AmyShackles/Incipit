@@ -20,7 +20,13 @@ class App extends Component {
       isFlashcardModalActive: false,
       isEditModalActive: false,
       isDeleteModalActive: false,
-      deckName: "",
+      deckName: "Default",
+      cardsInDeck: {
+        _id: '5f6e75e13dc30fff1e971773',
+        cards: [
+
+        ]
+      },
       deckPanels: [],
       flashcards: [{
         frontInfo: 'front',
@@ -169,7 +175,6 @@ componentDidMount() {
   /* Now adding flashcards goes to and from database/server */
   addFlashCard = () => {
     let id = this.state.cardsInDeck._id
-    const flashcards = this.state.flashcards;
     const flashcard = {
       front: this.state.frontInfo,
       back: this.state.backInfo,
@@ -207,10 +212,9 @@ componentDidMount() {
               flashCardModalHandler={this.makeFlashcardModalActive}
               editModalHandler = {this.makeEditModalActive}
               deleteModalHandler = {this.makeDeleteModalActive}
-              flashcards={this.state.flashcards}
+              flashcards={this.state.cardsInDeck}
               deckPanels={this.state.deckPanels}
               getDeck={this.getDeck}
-              flashcards={this.state.cardsInDeck}
             />
           )}
         />

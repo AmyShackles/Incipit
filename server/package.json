@@ -3,19 +3,21 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "dev": "MONGO_URI=mongodb://localhost/incipit nodemon server.js",
+    "start": "node server.js"
   },
   "repository": "https://github.com/AmyShackles/Incipit.git",
   "author": "AmyShackles <amyshackles@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "cors": "^2.8.4",
-    "express": "^4.16.3",
-    "helmet": "^3.12.1",
-    "mongoose": "^5.1.7",
-    "morgan": "^1.9.0"
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^4.1.1",
+    "mongoose": "^5.10.7",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "nodemon": "^1.17.5"
+    "nodemon": "^2.0.4"
   }
 }

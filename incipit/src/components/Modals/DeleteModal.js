@@ -1,21 +1,20 @@
 import React from "react";
 import "../bulma.css";
-import styled from "styled-components";
 
 const DeleteModal = (props) => {
   return (
-    <div class={`modal ${props.deleteState ? 'is-active' : ''}`}>
-      <div class="modal-background" />
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">Delete Card?</p>
-          <button class="delete" aria-label="close" onClick = {props.deleteModalHandler} />
+    <div className={`modal ${props.deleteState ? 'is-active' : ''}`}>
+      <div className="modal-background" />
+      <div className="modal-card">
+        <header className="modal-card-head">
+          <p className="modal-card-title">Delete Card?</p>
+          <button className="delete" aria-label="close" onClick = {props.deleteModalHandler} />
         </header>
     
-        <footer class="modal-card-foot">
-          <button class="button is-warning" onClick = {() => {
+        <footer className="modal-card-foot">
+          <button className="button is-warning" onClick = {() => {
               props.deleteModalHandler()}}>Delete</button>
-          <button class="button" onClick = {props.deleteModalHandler}>Cancel</button>
+          <button className="button" onClick = {props.deleteModalHandler}>Cancel</button>
         </footer>
       </div>
     </div>

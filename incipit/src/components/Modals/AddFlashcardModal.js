@@ -1,6 +1,5 @@
 import React from "react";
 import "../bulma.css";
-import styled from "styled-components";
 
 const AddFlashcardModal = props => {
   return (

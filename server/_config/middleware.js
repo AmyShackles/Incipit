@@ -4,7 +4,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 
 const corsOptions = {
-    origin: 'http://localhost:3000'
+    origin: process.env.REACT_ENDPOINT
 }
 
 module.exports = function(server) {

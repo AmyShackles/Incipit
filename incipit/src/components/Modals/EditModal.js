@@ -1,6 +1,5 @@
 import React from "react";
 import "../bulma.css";
-import styled from "styled-components";
 
 const EditModal = props => {
   return (
