@@ -52,6 +52,7 @@ componentDidMount() {
           deckPanels: response.data.decks
         })
       })
+      .catch(err => console.error(err))
   }
   getDeck = (id) => {
     axios.get(`${process.env.REACT_APP_ENDPOINT}/api/deck/${id}`)
@@ -61,8 +62,8 @@ componentDidMount() {
       })
     })
   }
-  makeEditModalActive = () => {
-    this.setState({isEditModalActive: !this.state.isEditModalActive});
+  makeEditModalActive = (card) => {
+    this.setState({isEditModalActive: !this.state.isEditModalActive, activeCard: card});
   }
   makeDeleteModalActive = () => {
     this.setState({isDeleteModalActive: !this.state.isDeleteModalActive});
@@ -103,12 +104,7 @@ componentDidMount() {
   updateDeck = (id, updates) => {
     axios.put(`${process.env.REACT_APP_ENDPOINT}/api/deck/${id}`, updates)
       .then(response => {
-        let deck = this.state.decks
-        let editedDeck = deck.filter(card => card._id !== response.data.updatedDeck._id)
-        editedDeck.unshift(response.data.updatedDeck);
-        this.setState({
-          decks: editedDeck
-        })
+        this.getDeck(response.subject[0])
       })
   }
   /* deleteDeck also deletes all cards in the deck */
@@ -131,16 +127,12 @@ componentDidMount() {
   }
   /* editIndividualCard can be used for editing anything -
 (And by anything, I mean: front & back, front, back, rating, or subject) */
-  editIndividualCard = (id, cardId, updates) => {
+  editIndividualCard = (cardId, updates) => {
+    const id = this.state.cardsInDeck._id;
     axios.put(`${process.env.REACT_APP_ENDPOINT}/api/deck/${id}/${cardId}`, updates)
       .then(response => {
-        let currentCards = this.state.cardsInDeck
-        let editedCards = currentCards.filter(card => card._id !== response.data.updatedCard._id)
-        editedCards.unshift(response.data.updatedCard)
-        this.setState({
-          selectedCard: response.data.updatedCard,
-          cardsInDeck: editedCards
-        })
+        this.setState({isEditModalActive: false})
+        this.getDeck(id);
       })
   }
   deleteIndividualCard = (id, cardId) => {
@@ -237,7 +229,11 @@ componentDidMount() {
         editModalHandler = {this.makeEditModalActive}
         deckName={this.state.deckName}
         getIndividualCard = {this.getIndividualCard}
+        editCard={this.editIndividualCard}
         getDeck={this.getDeck}
+        currentCard={this.state.activeCard}
+        frontInfo={this.state.frontInfo}
+        backInfo={this.state.backInfo}
         />
         <DeleteModal 
         deleteState = {this.state.isDeleteModalActive}

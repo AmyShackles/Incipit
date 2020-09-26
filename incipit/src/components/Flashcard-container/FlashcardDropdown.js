@@ -45,7 +45,7 @@ const FlashcardDropdown = props => {
           <div className="dropdown-content">
             <DropdownItem className="dropdown-item" name = 'isEditModalActive' 
                 onClick = {() => {
-                props.editModalHandler();
+                props.editModalHandler(props.currentCard);
                 }}>Edit</DropdownItem>
             <hr className="dropdown-divider" />
             <DropdownItem className="dropdown-item" onClick = {() => {

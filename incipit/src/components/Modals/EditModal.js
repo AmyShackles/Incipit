@@ -2,6 +2,15 @@ import React from "react";
 import "../bulma.css";
 
 const EditModal = props => {
+  const [front, setFront] = React.useState('');
+  const [back, setBack] = React.useState('');
+
+  function handleFrontChange(e) {
+    setFront(e.target.value)
+  }
+  function handleBackChange(e) {
+    setBack(e.target.value)
+  }
   return (
     <div
       className={`modal ${props.editState ? 'is-active' : ''}`}
@@ -13,7 +22,7 @@ const EditModal = props => {
           <button
             className="delete"
             aria-label="close"
-          onClick = {props.editModalHandler}/>
+          onClick={() => props.editModalHandler()}/>
         </header>
         <section className="modal-card-body">
           <div className="field">
@@ -23,8 +32,8 @@ const EditModal = props => {
                 className="input"
                 type="text"
                 name="frontInfo"
-                value = {props.frontInfo}
-                onChange = {props.changeHandler}
+                defaultValue = {props.currentCard && props.currentCard.front}
+                onChange = {handleFrontChange}
                 placeholder="Info for front"
               />
             </div>
@@ -35,8 +44,8 @@ const EditModal = props => {
                 className="input"
                 type="text"
                 name="backInfo"
-                value = {props.backInfo}
-                onChange = {props.changeHandler}
+                defaultValue = {props.currentCard && props.currentCard.back}
+                onChange = {handleBackChange}
                 placeholder="Info for back"
               />
             </div>
@@ -46,13 +55,15 @@ const EditModal = props => {
         </section>
         <footer className="modal-card-foot">
           <button
-            className="button is-info"onClick = {() => {
-                props.editModalHandler();
+            className="button is-info"onClick = {(e) => {
+                e.preventDefault();
+                const updates = { ...(front ? { front} : null), ...(back ? { back } : null)}
+                props.editCard(props.currentCard._id, updates)
                 }}
           >
             Finish
           </button>
-          <button className="button"onClick = {props.editModalHandler}>
+          <button className="button"onClick ={() => props.editModalHandler()}>
             Cancel
           </button>
         </footer>

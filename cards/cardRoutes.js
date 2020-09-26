@@ -9,16 +9,15 @@ const sendUserError = (status, message, res) => {
 };
 
 // Get all decks and cards  -- THIS ONE WORKS
-router.get("/deck", (req, res) => {
-  Deck.find()
+router.get("/deck", async (req, res) => {
+  const decks = await Deck.find()
     .populate("cards", "-__v")
     .select("-__v")
-    .then(decks => {
-      res.json({ decks });
-    })
-    .catch(err => {
-      res.status(500).json(err);
-    });
+    if (decks) {
+      res.status(200).json({decks})
+    } else {
+      res.status(500).json({Error: 'Failed to fetch decks'})
+    }
 });
 
 // Add a new deck -- THIS ONE WORKS
@@ -150,45 +149,43 @@ router.get("/deck/:id/:cardId", (req, res) => {
 });
 
 // Edit a specific card in a deck
-router.put("/deck/:id/:cardId", (req, res) => {
+router.put("/deck/:id/:cardId", async (req, res) => {
+  console.log('req.params', req.params)
   const { id, cardId } = req.params;
   const { front, back, rating, subject } = req.body;
   // if updating front and back - THIS WORKS (in either order)
    if (front && back) {
-    Card.findByIdAndUpdate(cardId, { $set: { front, back } }, { new: true })
-      .then(updatedCard => {
-        res.status(200).json({ updatedCard });
-      })
-      .catch(err => {
-        sendUserError(500, err.message, res);
-      });
+    let updatedCard = await Card.findByIdAndUpdate(cardId, { $set: { front, back } }, { new: true })
+    if (updatedCard) {
+      res.status(200).json({updatedCard})
+    } else {
+      sendUserError(500, 'Error in updating card', res);
+    }
     // if updating front only - THIS WORKS
   } else if (front) {
-    Card.findByIdAndUpdate(cardId, { $set: { front } }, { new: true })
-      .then(updatedCard => {
+    let updatedCard = await Card.findByIdAndUpdate(cardId, { $set: { front } }, { new: true })
+      if (updatedCard) {
         res.status(200).json({ updatedCard });
-      })
-      .catch(err => {
-        sendUserError(500, err.message, res);
-      });
+      } else {
+        sendUserError(500, 'Error in updating card', res);
+      }
     // if updating back only - THIS WORKS
   } else if (back) {
-    Card.findByIdAndUpdate(cardId, { $set: { back } }, { new: true })
-      .then(updatedCard => {
-        res.status(200).json({ updatedCard });
-      })
-      .catch(err => {
-        sendUserError(500, err.message, res);
-      });
+    let updatedCard = await Card.findByIdAndUpdate(cardId, { $set: { back } }, { new: true })
+      if (updatedCard) {
+                res.status(200).json({ updatedCard });
+
+      } else {
+        sendUserError(500, 'Error in updating card', res);
+      }
     // if updating rating - THIS WORKS
   } else if (rating) {
-    Card.findByIdAndUpdate(cardId, { $set: { rating } }, { new: true })
-      .then(updatedCard => {
+    let updatedCard = await Card.findByIdAndUpdate(cardId, { $set: { rating } }, { new: true })
+      if (updatedCard) {
         res.status(200).json({ updatedCard });
-      })
-      .catch(err => {
-        res.status(200).json({ updatedCard });
-      });
+      } else {
+        sendUserError(500, 'Error in updating card', res);
+      }
   } else if (subject) {
 /* Updates deck of card
 Updates the card so that the subject is changed to subject from req.body

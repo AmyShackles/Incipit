@@ -73,7 +73,7 @@ class Flashcard extends Component {
             editModalHandler = {this.props.editModalHandler}
             getIndividualCard = {this.props.getIndividualCard}
             subject = {this.props.subject}
-            currentCard = {this.props.flashcard}
+            currentCard = {this.props.card}
             deleteModalHandler = {this.props.deleteModalHandler}
             />
           </CardFront>
@@ -84,7 +84,7 @@ class Flashcard extends Component {
             editModalHandler = {this.props.editModalHandler}
             getIndividualCard = {this.props.getIndividualCard}
             subject = {this.props.subject}
-            currentCard = {this.props.flashcard}
+            currentCard = {this.props.card}
             deleteModalHandler = {this.props.deleteModalHandler}
             />
 

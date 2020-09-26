@@ -4,7 +4,8 @@ const helmet = require('helmet');
 const cors = require('cors');
 
 const corsOptions = {
-    origin: ['http://localhost:3000', 'https://incipit.netlify.app']
+    origin: ['http://localhost:3000', 'https://incipit.netlify.app', 'http://localhost:3001'],
+    methods: ['GET,HEAD,PUT,PATCH,POST,DELETE']
 }
 
 module.exports = function(server) {
